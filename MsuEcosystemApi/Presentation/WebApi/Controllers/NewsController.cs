@@ -5,8 +5,11 @@ using Application.Services.NewsService.PublicationFeatures.Queries;
 using Application.Services.NewsService.ReviewFeatures.Commands;
 using Application.Services.NewsService.ReviewFeatures.Queries;
 using Application.Services.UserService.Queries;
+using Domain.Entitties.News;
+using Domain.Entitties.News.Drafts;
 using Domain.Entitties.News.ViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,19 +28,20 @@ namespace WebApi.Controllers
             _mediator = mediatr;
         }
 
+        [Authorize]
         [HttpPost("drafts/create")]
-        public async Task<IActionResult> AddDraft(string title, string text, string previewImageUrl, bool isReadyForReview)
+        public async Task<IActionResult> AddDraft(DraftCreateModel draft)
         {
             var currentUser = await _mediator.Send(new GetCurrentUser.Query(User));
-            var response = await _mediator.Send(new CreateDraft.Command(title, text, previewImageUrl, isReadyForReview, currentUser.User.Id));
-            if (response.Successed)
+            var response = await _mediator.Send(new CreateDraft.Command(draft, currentUser.User.Id));
+            if (!response.Successed)
             {
                 return BadRequest(response.Message);
             }
             return Ok(response.Message);
         }
 
-        // GET api/<NewsController>/5
+        [Authorize]
         [HttpGet("drafts/{id}")]
         public async Task<IActionResult> GetDraftById(string id)
         {
@@ -49,31 +53,15 @@ namespace WebApi.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPut("drafts/update")]
-        public IActionResult UpdateDraft(string id, string title, string text,
-            string previewImageUrl, bool? isReadyForReview)
+        public IActionResult UpdateDraft([FromBody] Draft draft)
         {
-            var currentUser = _mediator.Send(new GetCurrentUser.Query(User)).Result;
-            var oldDraftVersion = _mediator.Send(new GetDraft.Query(id)).Result;
-
-            if (currentUser.User.Id == oldDraftVersion.AuthorId)
-            {
-                var result = _mediator.Send(new UpdateDraft.Command(title, text, previewImageUrl,
-                    isReadyForReview, oldDraftVersion.IsReviewed, oldDraftVersion)).Result;
-                return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
-            }
-
-            return BadRequest("Текст может изменить только его автор");
-        }
-
-        [HttpPut("ToggleReviewed")]
-        public IActionResult UpdateDraft(string id)
-        {
-            var draft = _mediator.Send(new GetDraft.Query(id)).Result;
-            var result = _mediator.Send(new UpdateDraft.Command(IsReadyForReview: false, IsReviewed: !draft.IsReviewed, OldDraft: draft)).Result;
+            var result = _mediator.Send(new UpdateDraft.Command(draft)).Result;
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
 
+        [Authorize]
         [HttpDelete("drafts/{id}")]
         public async Task<IActionResult> DeleteDraft(string id)
         {
@@ -81,10 +69,12 @@ namespace WebApi.Controllers
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
 
-        [HttpGet("drafts/list/{authorId}")]
+        [Authorize]
+        [HttpGet("drafts/list")]
         public async Task<IEnumerable<DraftPreviewModel>> GetDraftsList(string authorId)
         {
-            return await _mediator.Send(new GetUserDraftsList.Query(authorId));
+            var currentUser = await _mediator.Send(new GetCurrentUser.Query(User));
+            return await _mediator.Send(new GetUserDraftsList.Query(currentUser.User.Id));
         }
 
         [HttpGet("drafts/ForReviewList/")]

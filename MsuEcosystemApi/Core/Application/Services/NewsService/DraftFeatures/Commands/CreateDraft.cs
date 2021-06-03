@@ -1,4 +1,5 @@
 ﻿using Domain.Entitties.News;
+using Domain.Entitties.News.Drafts;
 using Domain.Interfaces;
 using MediatR;
 using System;
@@ -9,9 +10,7 @@ namespace Application.Services.NewsService.DraftFeatures.Commands
 {
     public static class CreateDraft
     {
-        public record Command(string Title,
-            string Text, string PreviewImageUrl,
-            bool IsReadyForReview, string AuthorId) : IRequest<Response>;
+        public record Command(DraftCreateModel draft, string AuthorId) : IRequest<Response>;
 
         public record Response(bool Successed, string Message);
 
@@ -31,11 +30,11 @@ namespace Application.Services.NewsService.DraftFeatures.Commands
                     new Draft
                     {
                         Id = id,
-                        Title = request.Title,
-                        Text = request.Text,
-                        PreviewImageUrl = request.PreviewImageUrl,
+                        Title = request.draft.Title,
+                        Text = request.draft.Text,
+                        PreviewImageUrl = request.draft.PreviewImageUrl,
                         AuthorId = request.AuthorId,
-                        IsReadyForReview = request.IsReadyForReview,
+                        IsReadyForReview = request.draft.IsReadyForReview,
                         //IsApproved = false,
                         //IsRequiresChanges = false,
                         IsReviewed = false
