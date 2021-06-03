@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -13,6 +14,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Box, Divider } from "@material-ui/core";
 import PeopleIcon from "@material-ui/icons/People";
 import { Link } from "react-router-dom";
+import ProfileIcon from "./ProfileIcon";
+import Collapse from "@material-ui/core/Collapse";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,12 +32,16 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
 }));
 
 function Navbar() {
   const classes = useStyles();
-
+  const isAuthenticated = useSelector(({ auth }) => auth.isAuthenticated);
   const [isOpened, setIsOpened] = React.useState(false);
+  const [newsListOpen, setNewsListOpen] = React.useState(true);
 
   return (
     <div className={classes.root}>
@@ -50,11 +59,15 @@ function Navbar() {
           <Typography variant="h6" className={classes.title}>
             Панель управления
           </Typography>
-          {/* <Link to="/login"> */}
-            <Button variant="contained" color="secondary">
-              Войти
-            </Button>
-          {/* </Link> */}
+          {isAuthenticated ? (
+            <ProfileIcon />
+          ) : (
+            <Link to="/login">
+              <Button variant="contained" color="secondary">
+                Войти
+              </Button>
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -72,18 +85,43 @@ function Navbar() {
                   Меню
                 </Box>
                 <Divider />
-                <ListItem button onClick={() => console.log(123)}>
-                  <ListItemText primary={"Новости"} />
+                <ListItem button onClick={() => setNewsListOpen(!newsListOpen)}>
+                  <ListItemText primary="Новости" />
+                  {newsListOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
+                <Collapse in={newsListOpen} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <Link to="/news/drafts">
+                      <ListItem button className={classes.nested}>
+                        <ListItemText primary="Черновики" />
+                      </ListItem>
+                    </Link>
+                    <Link to="/news/reviews">
+                      <ListItem button className={classes.nested}>
+                        <ListItemText primary="Рецензии" />
+                      </ListItem>
+                    </Link>
+                    <ListItem button className={classes.nested}>
+                      <ListItemText primary="Публикации" />
+                    </ListItem>
+                  </List>
+                </Collapse>
                 <ListItem button onClick={() => console.log(123)}>
                   <ListItemText primary={"Студенты"} />
                 </ListItem>
                 <ListItem button onClick={() => console.log(123)}>
                   <ListItemText primary={"Преподаватели"} />
                 </ListItem>
-                <ListItem button onClick={() => console.log(123)}>
-                  <ListItemText primary={"Факультеты"} />
-                </ListItem>
+                <Link to="/faculty/add">
+                  <ListItem button onClick={() => console.log(123)}>
+                    <ListItemText primary={"Факультеты"} />
+                  </ListItem>
+                </Link>
+                <Link to="/users">
+                  <ListItem button onClick={() => console.log(123)}>
+                    <ListItemText primary={"Пользователи"} />
+                  </ListItem>
+                </Link>
               </List>
             </div>
           </SwipeableDrawer>

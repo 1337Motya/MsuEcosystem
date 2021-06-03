@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +13,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { Controller, useForm } from "react-hook-form";
+import { login } from "../redux/actions/auth";
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,11 +34,25 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
+  }
 }));
 
 function Login() {
-    const classes = useStyles();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(({auth}) => auth.isAuthenticated)
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password));
+  };
+
+  if(isAuthenticated) {
+    return <Redirect to="/" />
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -45,7 +63,7 @@ function Login() {
         <Typography component="h1" variant="h5">
           Вход в систему
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -55,6 +73,8 @@ function Login() {
             label="Адрес электронной почты"
             name="email"
             autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             autoFocus
           />
           <TextField
@@ -66,10 +86,19 @@ function Login() {
             label="Пароль"
             type="password"
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={
+              <Checkbox
+                name="rememberme"
+                defaultValue={false}
+                value="remember"
+                color="primary"
+              />
+            }
             label="Запомнить меня"
           />
           <Button
