@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { Container } from "@material-ui/core";
+import DraftsForReview from "../../components/news/DraftsForReview";
 
 const useStyles = makeStyles({
   root: {
@@ -34,8 +35,14 @@ function Reviews() {
         scrollButtons="on"
         aria-label="scrollable auto tabs example"
       >
-        <Tab label="Черновики на проверку" />
-        <Tab label="Проверенные" />
+        <Tab label="Черновики на проверку" >
+          <DraftsForReview />
+          <h2>123</h2>
+        </Tab>
+        <Tab label="Проверенные">
+          123
+        </Tab>
+        
         <Tab label="Опубликованные" />
       </Tabs>
     </Paper>

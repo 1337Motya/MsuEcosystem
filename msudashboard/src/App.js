@@ -12,6 +12,7 @@ import CreateDraft from "./pages/news/CreateDraft";
 import Drafts from "./pages/news/Drafts";
 import EditDraft from "./pages/news/EditDraft";
 import Reviews from "./pages/news/Reviews";
+import EducationForms from "./pages/EducationForms/EducationForms";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/news/drafts/edit/:id" exact>
           <EditDraft />
+        </PrivateRoute>
+        <PrivateRoute path="/educationforms" exact>
+          <EducationForms />
         </PrivateRoute>
       </Switch>
     </div>

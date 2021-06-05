@@ -122,6 +122,11 @@ function Navbar() {
                     <ListItemText primary={"Пользователи"} />
                   </ListItem>
                 </Link>
+                <Link to="/educationforms">
+                  <ListItem button>
+                    <ListItemText primary={"Формы обучения"} />
+                  </ListItem>
+                </Link>
               </List>
             </div>
           </SwipeableDrawer>
