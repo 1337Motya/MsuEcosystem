@@ -13,6 +13,12 @@ import Drafts from "./pages/news/Drafts";
 import EditDraft from "./pages/news/EditDraft";
 import Reviews from "./pages/news/Reviews";
 import EducationForms from "./pages/EducationForms/EducationForms";
+import Genres from "./pages/library/Genres";
+import EditionTypes from "./pages/library/EditionTypes";
+import PickUpPoints from "./pages/library/PickUpPoints";
+import PublishingHouses from "./pages/library/PublishingHouses";
+import Authors from "./pages/library/Authors";
+import AddAuthor from "./pages/library/AddAuthor";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +51,24 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/educationforms" exact>
           <EducationForms />
+        </PrivateRoute>
+        <PrivateRoute path="/library/genres" exact>
+          <Genres />
+        </PrivateRoute>
+        <PrivateRoute path="/library/editiontypes" exact>
+          <EditionTypes />
+        </PrivateRoute>
+        <PrivateRoute path="/library/pickuppoints" exact>
+          <PickUpPoints />
+        </PrivateRoute>
+        <PrivateRoute path="/library/publishinghouses" exact>
+          <PublishingHouses />
+        </PrivateRoute>
+        <PrivateRoute path="/library/authors" exact>
+          <Authors />
+        </PrivateRoute>
+        <PrivateRoute path="/library/authors/create" exact>
+          <AddAuthor />
         </PrivateRoute>
       </Switch>
     </div>
