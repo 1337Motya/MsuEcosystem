@@ -18,9 +18,6 @@ const educationFormsApi = {
       .get(`EducationForms`)
       .then(({ data }) => data);
   },
-  fetchDraft(id) {
-    return axiosInstance.get(`News/drafts/${id}`).then(({ data }) => data);
-  },
   deleteEducationForm(id) {
     return axiosInstance
       .delete(`EducationForms/${id}`)
