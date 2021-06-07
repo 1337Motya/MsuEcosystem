@@ -24,15 +24,15 @@ namespace Application.Services.NewsService.PublicationFeatures.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                string id = Guid.NewGuid().ToString();
                 await _publicationRepository.CreateAsync(
                     new Publication
                     {
-                        Id = id,
+                        Id = Guid.NewGuid().ToString(),
                         ReviewId = request.ReviewId,
-                        PublicationDate = DateTime.Now
+                        PublicationDate = DateTime.Now,
+                        IsPinned = false
                     });
-                return new Response(true, $"Статья опубликована");
+                return new Response(true, $"Статья успешно опубликована");
             }
         }
     }

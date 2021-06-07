@@ -1,4 +1,5 @@
-﻿using Domain.Entitties.News;
+﻿using Application.Services.UserService.Queries;
+using Domain.Entitties.News;
 using Domain.Entitties.News.ViewModels;
 using Domain.Interfaces;
 using MediatR;
@@ -16,22 +17,31 @@ namespace Application.Services.NewsService.PublicationFeatures.Queries
         public class Handler : IRequestHandler<Query, IEnumerable<PublicationPreviewModel>>
         {
             private readonly IRepository<Publication> _publicationRepository;
+            private readonly IMediator _mediator;
 
-            public Handler(IRepository<Publication> publicationRepository)
+            public Handler(IRepository<Publication> publicationRepository, IMediator mediator)
             {
                 _publicationRepository = publicationRepository;
+                _mediator = mediator;
             }
 
             public async Task<IEnumerable<PublicationPreviewModel>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var reviews = await _publicationRepository.GetAsync();
-                return reviews.Select(i => new PublicationPreviewModel
+                var publications = await _publicationRepository.GetAsync();
+                var result = new List<PublicationPreviewModel>();
+                foreach (var publication in publications)
                 {
-                    Id = i.Id,
-                    Title = i.EditedArticle.EditetTitle,
-                    PreviewImageUrl = i.EditedArticle.NewPreviewImageUrl,
-                    PublicationDate = i.PublicationDate
-                });
+                    result.Add(new PublicationPreviewModel
+                    {
+                        Id = publication.Id,
+                        Title = publication.Article.Draft.Title,
+                        PreviewImageUrl = publication.Article.Draft.PreviewImageUrl,
+                        PublicationDate = publication.PublicationDate,
+                        Author = await _mediator.Send(new GetUserPreviewById.Query(publication.Article.Draft.AuthorId)),
+                        Editor = await _mediator.Send(new GetUserPreviewById.Query(publication.Article.ReviewerId))
+                    });
+                }
+                return result;
             }
         }
     }

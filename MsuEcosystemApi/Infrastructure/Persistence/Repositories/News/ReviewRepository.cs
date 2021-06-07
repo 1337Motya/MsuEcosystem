@@ -61,7 +61,7 @@ namespace Persistence.Repositories.News
 
         public Review Get(string id)
         {
-            return _context.Reviews.FirstOrDefault(i => i.Id == id);
+            return _context.Reviews.Include(i => i.Draft).FirstOrDefault(i => i.Id == id);
         }
 
 

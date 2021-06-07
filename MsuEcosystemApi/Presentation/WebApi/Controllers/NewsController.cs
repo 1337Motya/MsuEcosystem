@@ -55,9 +55,9 @@ namespace WebApi.Controllers
 
         [Authorize]
         [HttpPut("drafts/update")]
-        public IActionResult UpdateDraft([FromBody] Draft draft)
+        public async Task<IActionResult> UpdateDraft([FromBody] Draft draft)
         {
-            var result = _mediator.Send(new UpdateDraft.Command(draft)).Result;
+            var result = await _mediator.Send(new UpdateDraft.Command(draft));
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
 
@@ -71,33 +71,39 @@ namespace WebApi.Controllers
 
         [Authorize]
         [HttpGet("drafts/list")]
-        public async Task<IEnumerable<DraftPreviewModel>> GetDraftsList(string authorId)
+        public async Task<IEnumerable<DraftPreviewModel>> GetDraftsList()
         {
             var currentUser = await _mediator.Send(new GetCurrentUser.Query(User));
             return await _mediator.Send(new GetUserDraftsList.Query(currentUser.User.Id));
         }
 
+        [Authorize]
         [HttpGet("drafts/ForReviewList/")]
         public async Task<IEnumerable<DraftPreviewModel>> GetDraftsForReviewList()
         {
-            return await _mediator.Send(new GetDraftsForReview.Query());
+            var currentUser = await _mediator.Send(new GetCurrentUser.Query(User));
+            return await _mediator.Send(new GetDraftsForReview.Query(currentUser.User.Id));
         }
 
+        [Authorize]
         [HttpPost("reviews/create")]
-        public async Task<IActionResult> AddReview(string title, string text, string previewImageUrl, string reviewText, string draftId)
+        public async Task<IActionResult> AddReview(Review review)
         {
             var currentUser = await _mediator.Send(new GetCurrentUser.Query(User));
-            var result = await _mediator.Send(new CreateReview.Command(title, text,
-                 previewImageUrl, reviewText, draftId, currentUser.User.Id));
+            review.ReviewerId = currentUser.User.Id;
+            var result = await _mediator.Send(new CreateReview.Command(review));
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
 
+        [Authorize]
         [HttpGet("reviews/")]
         public async Task<IEnumerable<ReviewPreviewModel>> GetReviewList()
         {
-            return await _mediator.Send(new GetReviewsList.Query());
+            var currentUser = await _mediator.Send(new GetCurrentUser.Query(User));
+            return await _mediator.Send(new GetReviewsList.Query(currentUser.User.Id));
         }
 
+        [Authorize]
         [HttpDelete("reviews/delete/{id}")]
         public IActionResult DeleteReview(string id)
         {
@@ -105,7 +111,8 @@ namespace WebApi.Controllers
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
 
-        [HttpGet("reviews/draft/{id}")]
+        [Authorize]
+        [HttpGet("reviews/draft/{draftId}")]
         public async Task<IActionResult> GetReview(string draftId)
         {
             var result = await _mediator.Send(new GetDraftReview.Query(draftId));
@@ -116,12 +123,14 @@ namespace WebApi.Controllers
             return NotFound();
         }
 
+        [Authorize]
         [HttpPost("publication/create/{reviewId}")]
         public async Task<IActionResult> Publish(string reviewId)
         {
-            var result = _mediator.Send(new CreatePublication.Command(reviewId)).Result;
+            var result = await _mediator.Send(new CreatePublication.Command(reviewId));
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
+
 
         [HttpGet("GetPublicationList")]
         public async Task<IEnumerable<PublicationPreviewModel>> GetPublicationList()
@@ -135,6 +144,7 @@ namespace WebApi.Controllers
             return await _mediator.Send(new GetPublication.Query(id));
         }
 
+        [Authorize]
         [HttpDelete("publications/delete/{id}")]
         public async Task<IActionResult> DeletePublication(string id)
         {

@@ -25,21 +25,20 @@ namespace Application.Services.NewsService.DraftFeatures.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                string id = Guid.NewGuid().ToString();
                 await _draftRepository.CreateAsync(
                     new Draft
                     {
-                        Id = id,
+                        Id = Guid.NewGuid().ToString(),
                         Title = request.draft.Title,
                         Text = request.draft.Text,
                         PreviewImageUrl = request.draft.PreviewImageUrl,
                         AuthorId = request.AuthorId,
                         IsReadyForReview = request.draft.IsReadyForReview,
-                        //IsApproved = false,
-                        //IsRequiresChanges = false,
+                        IsApproved = false,
+                        IsRequiresChanges = false,
                         IsReviewed = false
                     });
-                return new Response(true, $"Черновик добавлен, id - {id}");
+                return new Response(true, $"Ваш черновик учпешно сохранён");
             }
         }
     }

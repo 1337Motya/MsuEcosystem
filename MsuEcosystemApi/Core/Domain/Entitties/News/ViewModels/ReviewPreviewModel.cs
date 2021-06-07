@@ -4,9 +4,9 @@ namespace Domain.Entitties.News.ViewModels
 {
     public class ReviewPreviewModel
     {
-        public string ReviewId { get; set; }
+        public string Id { get; set; }
         public string Title { get; set; }
-        public string PreviewImageUrl { get; set; }
-        public UserViewModel Author { get; set; }
+        public bool IsPublished { get; set; }
+        public UserPreviewModel Author { get; set; }
     }
 }

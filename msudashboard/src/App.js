@@ -19,6 +19,7 @@ import PickUpPoints from "./pages/library/PickUpPoints";
 import PublishingHouses from "./pages/library/PublishingHouses";
 import Authors from "./pages/library/Authors";
 import AddAuthor from "./pages/library/AddAuthor";
+import CreateReview from "./pages/news/CreateReview";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/news/drafts/edit/:id" exact>
           <EditDraft />
+        </PrivateRoute>
+        <PrivateRoute path="/news/reviews/create/:id" exact>
+          <CreateReview />
         </PrivateRoute>
         <PrivateRoute path="/educationforms" exact>
           <EducationForms />

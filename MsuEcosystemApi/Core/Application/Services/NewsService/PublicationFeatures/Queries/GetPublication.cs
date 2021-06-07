@@ -26,9 +26,9 @@ namespace Application.Services.NewsService.PublicationFeatures.Queries
                 return new PublicationViewModel
                 {
                     Id = publication.Id,
-                    Text = publication.EditedArticle.EditedText,
-                    Title = publication.EditedArticle.EditetTitle,
-                    PreviewImageUrl = publication.EditedArticle.NewPreviewImageUrl,
+                    Text = publication.Article.Draft.Text,
+                    Title = publication.Article.Draft.Title,
+                    PreviewImageUrl = publication.Article.Draft.PreviewImageUrl,
                     PublicationDate = publication.PublicationDate
                 };
             }

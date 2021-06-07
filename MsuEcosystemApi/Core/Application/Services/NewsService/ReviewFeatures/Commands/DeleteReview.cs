@@ -26,7 +26,7 @@ namespace Application.Services.NewsService.ReviewFeatures.Commands
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
                 var publication = (await _publicationRepository.GetAsync(i => i.ReviewId == request.Id)).FirstOrDefault();
-                if (publication == null)
+                if (publication != null)
                 {
                     return new Response(false, $"Рецензия не может быть удалена, так как статья, связанная с ней опубликована");
                 }

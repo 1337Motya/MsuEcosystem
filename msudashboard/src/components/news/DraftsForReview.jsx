@@ -1,10 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchDrafts, deleteDraft } from "../../redux/actions/news";
+import { fetchDraftsForReview, deleteDraft } from "../../redux/actions/news";
 import { makeStyles } from "@material-ui/core/styles";
-import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
-import ClearRoundedIcon from "@material-ui/icons/ClearRounded";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -14,9 +12,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Container } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 
 const useStyles = makeStyles({
   table: {
@@ -32,7 +29,7 @@ function DraftsForReview() {
   const classes = useStyles();
 
   React.useEffect(() => {
-    dispatch(fetchDrafts());
+    dispatch(fetchDraftsForReview());
   }, []);
 
   const onDelete = (id) => {
@@ -41,7 +38,7 @@ function DraftsForReview() {
 
   return (
     <Container>
-      <h3>Черновики</h3>
+      <h3>Черновики на проверку</h3>
       <TableContainer component={Paper}>
         <Table
           className={classes.table}
@@ -50,45 +47,23 @@ function DraftsForReview() {
         >
           <TableHead>
             <TableRow>
-              <TableCell>Заголовок</TableCell>
-              <TableCell align="center">Готово к ревью</TableCell>
-              <TableCell align="center">Проверено</TableCell>
+              <TableCell align="center">Заголовок</TableCell>
+              <TableCell align="center">Автор</TableCell>
               <TableCell align="center"></TableCell>
-              <TableCell align="center">
-                <Link to="/news/drafts/create">
-                  <AddCircleIcon />
-                </Link>
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {isLoaded ? (
-              drafts.map((item) => (
+              drafts && drafts.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell component="th" scope="row">
                     {item.title}
                   </TableCell>
+                  {/* <TableCell align="center">{`${item.author.lastName} ${item.author.firstName} ${item.author.fatherName}`}</TableCell> */}
                   <TableCell align="center">
-                    {item.isReadyForReview ? (
-                      <CheckRoundedIcon />
-                    ) : (
-                      <ClearRoundedIcon />
-                    )}
-                  </TableCell>
-                  <TableCell align="center">
-                    {item.isReviewed ? (
-                      <CheckRoundedIcon />
-                    ) : (
-                      <ClearRoundedIcon />
-                    )}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Link to={`/news/drafts/edit/${item.id}`}>
-                      <EditIcon />
+                    <Link to={`/news/reviews/create/${item.id}`}>
+                      <SpellcheckIcon />
                     </Link>
-                  </TableCell>
-                  <TableCell align="center">
-                    <DeleteIcon onClick={() => onDelete(item.id)} />
                   </TableCell>
                 </TableRow>
               ))

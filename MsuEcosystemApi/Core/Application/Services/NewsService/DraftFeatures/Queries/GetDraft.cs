@@ -22,10 +22,6 @@ namespace Application.Services.NewsService.DraftFeatures.Queries
             public async Task<Draft> Handle(Query request, CancellationToken cancellationToken)
             {
                 var draft = await _draftRepository.GetAsync(request.Id);
-                if (draft == null)
-                {
-                    return null;
-                }
                 return draft;
             }
         }

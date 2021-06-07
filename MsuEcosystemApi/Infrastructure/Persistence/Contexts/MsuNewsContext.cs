@@ -20,7 +20,7 @@ namespace Persistence.Contexts
                 .HasOne(i => i.Draft);
 
             modelBuilder.Entity<Publication>()
-                .HasOne(p => p.EditedArticle);
+                .HasOne(p => p.Article);
         }
     }
 }

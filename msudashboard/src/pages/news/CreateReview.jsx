@@ -9,15 +9,17 @@ import { useParams } from "react-router-dom";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TextEditor from "../../components/TextEditor";
-import { fetchDraft, updateDraft } from "../../redux/actions/news";
+import { fetchDraft, addReview, updateDraft } from "../../redux/actions/news";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-function EditDraft() {
+function CreateReview() {
   const dispatch = useDispatch();
   const [title, setTitle] = React.useState("");
   const [text, setText] = React.useState("");
+  const [reviewText, setReviewText] = React.useState("");
   const [previewImage, setPreviewImage] = React.useState(null);
-  const [isReadyForReview, setIsReadyForReview] = React.useState(false);
+  const [isApproved, setIsApproved] = React.useState(false);
+  const [isRequiresChanges, setIsRequiresChanges] = React.useState(false);
   const isLoaded = useSelector(({ news }) => news.isLoaded);
   const draft = useSelector(({ news }) => news.currentDraft);
   const { id } = useParams();
@@ -29,11 +31,9 @@ function EditDraft() {
   React.useEffect(() => {
     setTitle(draft.title);
     setText(draft.text);
-    console.log(draft.isReadyForReview);
-    setIsReadyForReview(draft.isReadyForReview);
   }, [isLoaded]);
 
-  function saveChanges() {
+  function sendReview() {
     dispatch(
       updateDraft({
         id: draft.id,
@@ -41,8 +41,17 @@ function EditDraft() {
         authorId: draft.authorId,
         title: title,
         text: text,
-        isReadyForReview: isReadyForReview,
-        isReviewed: false,
+        isReadyForReview: false,
+        isReviewed: true,
+        isApproved: isApproved,
+        isRequiresChanges: isRequiresChanges,
+      })
+    );
+    dispatch(
+      addReview({
+        isPublished: false,
+        reviewText: reviewText,
+        draftId: draft.id,
       })
     );
   }
@@ -59,16 +68,35 @@ function EditDraft() {
           />
           <h2>Текст:</h2>
           <TextEditor text={text} setText={setText} />
+          <TextField
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            label="Комментарий"
+            fullWidth
+          />
           <FormControlLabel
             control={
               <Checkbox
-                checked={isReadyForReview}
-                onChange={() => setIsReadyForReview(!isReadyForReview)}
+                checked={isApproved}
+                onChange={() => setIsApproved(!isApproved)}
               />
             }
-            label="Отправить на ревью"
+            label="Готово к публикации"
           />
-          <Button variant="contained" color="primary" onClick={() => saveChanges()}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isRequiresChanges}
+                onChange={() => setIsRequiresChanges(!isRequiresChanges)}
+              />
+            }
+            label="Требует изменений"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => sendReview()}
+          >
             Сохранить
           </Button>
         </div>
@@ -79,4 +107,4 @@ function EditDraft() {
   );
 }
 
-export default EditDraft;
+export default CreateReview;

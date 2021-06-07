@@ -10,7 +10,7 @@ namespace Domain.Entitties.News.ViewModels
         public string Title { get; set; }
         public DateTime PublicationDate { get; set; }
 
-        public UserViewModel Author { get; set; }
-        public UserViewModel Editor { get; set; }
+        public UserPreviewModel Author { get; set; }
+        public UserPreviewModel Editor { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace Application.Services.NewsService.DraftFeatures.Commands
                     return new Response(false, "Ошибка");
                 }
                 _draftRepository.Update(request.Draft);
-                return new Response(true, "статья успешно обновлена");
+                return new Response(true, "Обновлено");
             }
 
         }

@@ -1,10 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchDrafts, deleteDraft } from "../../redux/actions/news";
+import { fetchReviews, publish } from "../../redux/actions/news";
 import { makeStyles } from "@material-ui/core/styles";
-import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
-import ClearRoundedIcon from "@material-ui/icons/ClearRounded";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -14,9 +12,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Container } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import PublishIcon from "@material-ui/icons/Publish";
+import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
 
 const useStyles = makeStyles({
   table: {
@@ -24,25 +22,24 @@ const useStyles = makeStyles({
   },
 });
 
-function Drafts() {
+function ReviewList() {
   const accountId = useSelector(({ auth }) => auth.user.accountId);
   const dispatch = useDispatch();
-  const drafts = useSelector(({ news }) => news.drafts);
+  const reviews = useSelector(({ news }) => news.reviews);
   const isLoaded = useSelector(({ news }) => news.isLoaded);
   const classes = useStyles();
 
   React.useEffect(() => {
-    dispatch(fetchDrafts());
+    dispatch(fetchReviews());
   }, []);
 
-
-  const onDelete = (id) => {
-    dispatch(deleteDraft(id));
+  const publishReview = (id) => {
+    dispatch(publish(id));
   };
-
+  console.log(reviews);
   return (
     <Container>
-      <h3>Черновики</h3>
+      <h3>Ваши рецензии</h3>
       <TableContainer component={Paper}>
         <Table
           className={classes.table}
@@ -52,60 +49,26 @@ function Drafts() {
           <TableHead>
             <TableRow>
               <TableCell align="center">Заголовок</TableCell>
-              <TableCell align="center">Готово к ревью</TableCell>
-              <TableCell align="center">Проверено</TableCell>
-              <TableCell align="center">Требует изменений</TableCell>
-              <TableCell align="center">Готово к публикации</TableCell>
-              <TableCell align="center"></TableCell>
-              <TableCell align="center">
-                <Link to="/news/drafts/create">
-                  <AddCircleIcon />
-                </Link>
-              </TableCell>
+              <TableCell align="center">Автор</TableCell>
+              <TableCell align="center">Опубликовано</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {isLoaded ? (
-              drafts.map((item) => (
+              reviews && reviews.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell component="th" scope="row">
                     {item.title}
                   </TableCell>
+                  <TableCell align="center">{`${item.author.lastName} ${item.author.firstName} ${item.author.fatherName}`}</TableCell>
                   <TableCell align="center">
-                    {item.isReadyForReview ? (
-                      <CheckRoundedIcon />
+                    {!item.isPublished ? (
+                      <PublishIcon
+                        onClick={() => publishReview(item.id)}
+                      />
                     ) : (
-                      <ClearRoundedIcon />
-                    )}
-                  </TableCell>
-                  <TableCell align="center">
-                    {item.isReviewed ? (
                       <CheckRoundedIcon />
-                    ) : (
-                      <ClearRoundedIcon />
                     )}
-                  </TableCell>
-                  <TableCell align="center">
-                    {item.isRequiresChanges ? (
-                      <CheckRoundedIcon />
-                    ) : (
-                      <ClearRoundedIcon />
-                    )}
-                  </TableCell>
-                  <TableCell align="center">
-                    {item.isApproved ? (
-                      <CheckRoundedIcon />
-                    ) : (
-                      <ClearRoundedIcon />
-                    )}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Link to={`/news/drafts/edit/${item.id}`}>
-                      <EditIcon />
-                    </Link>
-                  </TableCell>
-                  <TableCell align="center">
-                    <DeleteIcon onClick={() => onDelete(item.id)} />
                   </TableCell>
                 </TableRow>
               ))
@@ -129,4 +92,4 @@ function Drafts() {
   );
 }
 
-export default Drafts;
+export default ReviewList;

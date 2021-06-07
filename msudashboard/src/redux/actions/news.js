@@ -33,8 +33,39 @@ export const deleteDraft = (id) => (dispatch) => {
   });
 };
 
+export const fetchDraftsForReview = () => (dispatch) => {
+  dispatch(setStatus(false));
+  newsApi.fetchDraftsForReview().then((data) => {
+    dispatch(setDrafts(data));
+  });
+};
+
+export const fetchReviews = () => (dispatch) => {
+  dispatch(setStatus(false));
+  newsApi.fetchReviews().then((data) => {
+    dispatch(setReviews(data));
+  });
+};
+
+export const addReview = (review) => (dispatch) => {
+  newsApi.addReview(review).then((data) => {
+    console.log(data);
+  });
+};
+
+export const publish = (id) => (dispatch) => {
+  newsApi.publish(id).then((data) => {
+    console.log(data);
+  });
+};
+
 export const setDrafts = (items) => ({
   type: "SET_DRAFTS",
+  payload: items,
+});
+
+export const setReviews = (items) => ({
+  type: "SET_REVIEWS",
   payload: items,
 });
 

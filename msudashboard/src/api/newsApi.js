@@ -17,16 +17,30 @@ const newsApi = {
       .then(({ data }) => data);
   },
   fetchDrafts() {
-    return axiosInstance
-      .get(`News/drafts/list`)
-      .then(({ data }) => data);
+    return axiosInstance.get(`News/drafts/list`).then(({ data }) => data);
   },
   fetchDraft(id) {
     return axiosInstance.get(`News/drafts/${id}`).then(({ data }) => data);
   },
   deleteDraft(id) {
+    return axiosInstance.delete(`News/drafts/${id}`).then(({ data }) => data);
+  },
+  fetchDraftsForReview() {
     return axiosInstance
-      .delete(`News/drafts/${id}`)
+      .get(`News/drafts/ForReviewList`)
+      .then(({ data }) => data);
+  },
+  addReview(review) {
+    return axiosInstance
+      .post(`News/reviews/create`, review)
+      .then(({ data }) => data);
+  },
+  fetchReviews() {
+    return axiosInstance.get(`News/reviews`).then(({ data }) => data);
+  },
+  publish(id) {
+    return axiosInstance
+      .post(`News/publication/create/${id}`)
       .then(({ data }) => data);
   },
 };

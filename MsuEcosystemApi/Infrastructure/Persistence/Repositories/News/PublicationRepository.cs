@@ -41,32 +41,32 @@ namespace Persistence.Repositories.News
 
         public IEnumerable<Publication> Get()
         {
-            return _context.Publications.Include(i => i.EditedArticle);
+            return _context.Publications.Include(i => i.Article).ThenInclude(a => a.Draft);
         }
 
         public IEnumerable<Publication> Get(Expression<Func<Publication, bool>> expression)
         {
-            return _context.Publications.Where(expression);
+            return _context.Publications.Include(i => i.Article).Where(expression);
         }
 
         public async Task<IEnumerable<Publication>> GetAsync()
         {
-            return await _context.Publications.Include(i => i.EditedArticle).ToListAsync();
+            return await _context.Publications.Include(i => i.Article).ThenInclude(a => a.Draft).ToListAsync();
         }
 
         public async Task<IEnumerable<Publication>> GetAsync(Expression<Func<Publication, bool>> expression)
         {
-            return await _context.Publications.Include(i => i.EditedArticle).Where(expression).ToListAsync();
+            return await _context.Publications.Include(i => i.Article).ThenInclude(a => a.Draft).Where(expression).ToListAsync();
         }
 
         public Publication Get(string id)
         {
-            return _context.Publications.Include(i => i.EditedArticle).FirstOrDefault(i => i.Id == id);
+            return _context.Publications.Include(i => i.Article).ThenInclude(a => a.Draft).FirstOrDefault(i => i.Id == id);
         }
 
         public async Task<Publication> GetAsync(string id)
         {
-            return await _context.Publications.Include(i => i.EditedArticle).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Publications.Include(i => i.Article).ThenInclude(a => a.Draft).FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public void Update(Publication entity)

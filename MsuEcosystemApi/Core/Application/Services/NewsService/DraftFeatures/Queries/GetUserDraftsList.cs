@@ -29,8 +29,10 @@ namespace Application.Services.NewsService.DraftFeatures.Queries
                      {
                          Id = i.Id,
                          IsReviewed = i.IsReviewed,
-                         PreviewImageUrl = i.PreviewImageUrl,
-                         Title = i.Title
+                         Title = i.Title,
+                         IsApproved = i.IsApproved,
+                         IsReadyForReview = i.IsReadyForReview,
+                         IsRequiresChanges = i.IsRequiresChanges
                      });
             }
         }
