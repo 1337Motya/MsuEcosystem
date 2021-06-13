@@ -17,12 +17,19 @@ import { Container } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
+import Fab from "@material-ui/core/Fab";
+import Tooltip from "@material-ui/core/Tooltip";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
-});
+  fab: {
+    margin: theme.spacing(2),
+  },
+}));
 
 function Drafts() {
   const accountId = useSelector(({ auth }) => auth.user.accountId);
@@ -34,7 +41,6 @@ function Drafts() {
   React.useEffect(() => {
     dispatch(fetchDrafts());
   }, []);
-
 
   const onDelete = (id) => {
     dispatch(deleteDraft(id));
@@ -59,7 +65,9 @@ function Drafts() {
               <TableCell align="center"></TableCell>
               <TableCell align="center">
                 <Link to="/news/drafts/create">
-                  <AddCircleIcon />
+                  <Tooltip title="Добавить" aria-label="add">
+                    <AddCircleIcon color="secondary" />
+                  </Tooltip>
                 </Link>
               </TableCell>
             </TableRow>
@@ -101,11 +109,15 @@ function Drafts() {
                   </TableCell>
                   <TableCell align="center">
                     <Link to={`/news/drafts/edit/${item.id}`}>
-                      <EditIcon />
+                      <Tooltip title="Редактировать" aria-label="add">
+                        <EditIcon color="secondary"/>
+                      </Tooltip>
                     </Link>
                   </TableCell>
                   <TableCell align="center">
-                    <DeleteIcon onClick={() => onDelete(item.id)} />
+                    <IconButton aria-label="Удалить">
+                      <DeleteIcon onClick={() => onDelete(item.id)} />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))

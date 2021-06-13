@@ -22,7 +22,6 @@ const useStyles = makeStyles({
 });
 
 function DraftsForReview() {
-  const accountId = useSelector(({ auth }) => auth.user.accountId);
   const dispatch = useDispatch();
   const drafts = useSelector(({ news }) => news.drafts);
   const isLoaded = useSelector(({ news }) => news.isLoaded);
@@ -59,10 +58,10 @@ function DraftsForReview() {
                   <TableCell component="th" scope="row">
                     {item.title}
                   </TableCell>
-                  {/* <TableCell align="center">{`${item.author.lastName} ${item.author.firstName} ${item.author.fatherName}`}</TableCell> */}
+                  <TableCell align="center">{item.author !== null ? `${item.author.lastName} ${item.author.firstName} ${item.author.fatherName}` : "загрузка"}</TableCell>
                   <TableCell align="center">
                     <Link to={`/news/reviews/create/${item.id}`}>
-                      <SpellcheckIcon />
+                      <SpellcheckIcon color="secondary"/>
                     </Link>
                   </TableCell>
                 </TableRow>

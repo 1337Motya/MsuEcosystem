@@ -127,7 +127,11 @@ namespace WebApi.Controllers
         [HttpPost("publication/create/{reviewId}")]
         public async Task<IActionResult> Publish(string reviewId)
         {
+            
             var result = await _mediator.Send(new CreatePublication.Command(reviewId));
+            var review = await _mediator.Send(new GetReview.Query(reviewId));
+            review.IsPublished = true;
+            await _mediator.Send(new UpdateReview.Command(review));
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
 
@@ -149,6 +153,14 @@ namespace WebApi.Controllers
         public async Task<IActionResult> DeletePublication(string id)
         {
             var result = await _mediator.Send(new DeletePublication.Command(id));
+            return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
+        }
+
+        [Authorize]
+        [HttpPut("publications/update")]
+        public async Task<IActionResult> DeletePublication([FromBody] Publication publication)
+        {
+            var result = await _mediator.Send(new UpdatePublication.Command(publication));
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
     }

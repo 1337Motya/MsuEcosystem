@@ -1,13 +1,12 @@
 ﻿using Domain.Entitties.News;
 using Domain.Interfaces;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.Services.NewsService.ReviewFeatures.Commands
 {
-    public class CreateReview
+    public class UpdateReview
     {
         public record Command(Review Review) : IRequest<Response>;
 
@@ -23,9 +22,8 @@ namespace Application.Services.NewsService.ReviewFeatures.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                request.Review.Id = Guid.NewGuid().ToString();
-                await _reviewRepository.CreateAsync(request.Review);
-                return new Response(true, $"Рецензия успешно добавлена");
+                _reviewRepository.Update(request.Review);
+                return new Response(true, $"Рецензия успешно обновлена");
             }
         }
     }

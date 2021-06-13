@@ -1,4 +1,3 @@
-D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\Application.csprojAssemblyReference.cache
 D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\Application.GeneratedMSBuildEditorConfig.editorconfig
 D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\Application.AssemblyInfoInputs.cache
 D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\Application.AssemblyInfo.cs
@@ -15,3 +14,4 @@ D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\Appli
 D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\Application.dll
 D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\ref\Application.dll
 D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\Application.pdb
+D:\projects\MsuEcosystem\MsuEcosystemApi\Core\Application\obj\Debug\net5.0\Application.csproj.AssemblyReference.cache

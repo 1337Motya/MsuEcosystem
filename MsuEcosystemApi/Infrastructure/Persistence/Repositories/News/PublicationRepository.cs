@@ -72,7 +72,7 @@ namespace Persistence.Repositories.News
         public void Update(Publication entity)
         {
             _context.Publications.Update(entity);
-            _context.Entry(EntityState.Modified);
+            _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
         }
 

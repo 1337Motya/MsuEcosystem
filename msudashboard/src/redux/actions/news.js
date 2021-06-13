@@ -59,6 +59,25 @@ export const publish = (id) => (dispatch) => {
   });
 };
 
+export const fetchPublications = () => (dispatch) => {
+  dispatch(setStatus(false));
+  newsApi.fetchPublications().then((data) => {
+    dispatch(setPublications(data));
+  });
+};
+
+export const updatePublication = (publication) => (dispatch) => {
+  dispatch(setStatus(false));
+  newsApi.updatePublication(publication).then((data) => {
+    dispatch(setPublications(data));
+  });
+};
+
+export const setPublications = (items) => ({
+  type: "SET_PUBLICATIONS",
+  payload: items,
+});
+
 export const setDrafts = (items) => ({
   type: "SET_DRAFTS",
   payload: items,

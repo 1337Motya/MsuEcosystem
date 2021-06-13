@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchReviews, publish } from "../../redux/actions/news";
+import { fetchPublications, publish, updatePublication } from "../../redux/actions/news";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
@@ -15,7 +15,7 @@ import { Container } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PublishIcon from "@material-ui/icons/Publish";
 import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
-import IconButton from '@material-ui/core/IconButton';
+import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles({
   table: {
@@ -23,20 +23,22 @@ const useStyles = makeStyles({
   },
 });
 
-function ReviewList() {
+function Publications() {
   const dispatch = useDispatch();
-  const reviews = useSelector(({ news }) => news.reviews);
+  const publications = useSelector(({ news }) => news.publications);
   const isLoaded = useSelector(({ news }) => news.isLoaded);
   const classes = useStyles();
 
   React.useEffect(() => {
-    dispatch(fetchReviews());
+    dispatch(fetchPublications());
+    console.log(publications);
   }, []);
 
-  const publishReview = (id) => {
-    dispatch(publish(id));
-    dispatch(fetchReviews());
-  };
+  const pinPublcation = (item) => {
+    item.isPinned = !item.isPinned;
+    console.log(item);
+    dispatch(updatePublication(item));
+  }
 
   return (
     <Container>
@@ -51,32 +53,36 @@ function ReviewList() {
             <TableRow>
               <TableCell align="center">Заголовок</TableCell>
               <TableCell align="center">Автор</TableCell>
-              <TableCell align="center"></TableCell>
+              <TableCell align="center">Редактор</TableCell>
+              <TableCell align="center">Закреплено</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {isLoaded ? (
-              reviews &&
-              reviews.map((item) => (
+              publications &&
+              publications.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell component="th" scope="row">
                     {item.title}
                   </TableCell>
                   <TableCell align="center">{`${item.author.lastName} ${item.author.firstName} ${item.author.fatherName}`}</TableCell>
+                  <TableCell align="center">{`${item.editor.lastName} ${item.editor.firstName} ${item.editor.fatherName}`}</TableCell>
                   <TableCell align="center">
-                    {!item.isPublished ? (
-                      <IconButton aria-label="Опубликовать">
-                        <PublishIcon onClick={() => publishReview(item.id)} />
-                      </IconButton>
-                    ) : (
-                      <CheckRoundedIcon />
-                    )}
+                    <Switch
+                      checked={item.isPinned}
+                      onChange={(e) => pinPublcation(item)}
+                      name="checkedA"
+                      inputProps={{ "aria-label": "secondary checkbox" }}
+                    />
                   </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow key={1}>
                 <TableCell component="th" scope="row">
+                  <CircularProgress />
+                </TableCell>
+                <TableCell align="center">
                   <CircularProgress />
                 </TableCell>
                 <TableCell align="center">
@@ -94,4 +100,4 @@ function ReviewList() {
   );
 }
 
-export default ReviewList;
+export default Publications;

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   list: {
-    width: 250
+    width: 250,
   },
   nested: {
     paddingLeft: theme.spacing(4),
@@ -101,9 +101,11 @@ function Navbar() {
                         <ListItemText primary="Рецензии" />
                       </ListItem>
                     </Link>
-                    <ListItem button className={classes.nested}>
-                      <ListItemText primary="Публикации" />
-                    </ListItem>
+                    <Link to="/news/publications">
+                      <ListItem button className={classes.nested}>
+                        <ListItemText primary="Публикации" />
+                      </ListItem>
+                    </Link>
                   </List>
                 </Collapse>
                 <ListItem button onClick={() => console.log(123)}>

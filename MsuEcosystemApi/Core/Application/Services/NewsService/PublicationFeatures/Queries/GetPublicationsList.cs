@@ -37,6 +37,8 @@ namespace Application.Services.NewsService.PublicationFeatures.Queries
                         Title = publication.Article.Draft.Title,
                         PreviewImageUrl = publication.Article.Draft.PreviewImageUrl,
                         PublicationDate = publication.PublicationDate,
+                        IsPinned = publication.IsPinned,
+                        ReviewId = publication.ReviewId,
                         Author = await _mediator.Send(new GetUserPreviewById.Query(publication.Article.Draft.AuthorId)),
                         Editor = await _mediator.Send(new GetUserPreviewById.Query(publication.Article.ReviewerId))
                     });

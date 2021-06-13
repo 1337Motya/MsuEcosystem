@@ -31,13 +31,16 @@ namespace Application.Services.NewsService.ReviewFeatures.Queries
                 var result = new List<ReviewPreviewModel>();
                 foreach (var review in reviews)
                 {
-                    result.Add(new ReviewPreviewModel
+                    if (!review.IsPublished)
                     {
-                        Id = review.Id,
-                        Title = review.Draft.Title,
-                        IsPublished = review.IsPublished,
-                        Author = await _mediator.Send(new GetUserPreviewById.Query(review.Draft.AuthorId))
-                    });
+                        result.Add(new ReviewPreviewModel
+                        {
+                            Id = review.Id,
+                            Title = review.Draft.Title,
+                            IsPublished = review.IsPublished,
+                            Author = await _mediator.Send(new GetUserPreviewById.Query(review.Draft.AuthorId))
+                        });
+                    }
                 }
                 return result;
             }

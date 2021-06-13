@@ -22,6 +22,12 @@ const news = (state = initialState, action) => {
         reviews: action.payload,
         isLoaded: true,
       };
+    case "SET_PUBLICATIONS":
+      return {
+        ...state,
+        publications: action.payload,
+        isLoaded: true,
+      };
     case "SET_DRAFT":
       return {
         ...state,

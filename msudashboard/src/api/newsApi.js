@@ -43,6 +43,12 @@ const newsApi = {
       .post(`News/publication/create/${id}`)
       .then(({ data }) => data);
   },
+  fetchPublications() {
+    return axiosInstance.get(`News/GetPublicationList`).then(({ data }) => data);
+  },
+  updatePublication(publication) {
+    return axiosInstance.put(`News/publications/update`, publication).then(({ data }) => data);
+  },
 };
 
 export default newsApi;

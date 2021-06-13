@@ -6,7 +6,6 @@ D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\bin\Debug\ne
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\bin\Debug\net5.0\Persistence.pdb
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\bin\Debug\net5.0\Domain.dll
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\bin\Debug\net5.0\Domain.pdb
-D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\net5.0\Persistence.csprojAssemblyReference.cache
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\net5.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\net5.0\Persistence.AssemblyInfoInputs.cache
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\net5.0\Persistence.AssemblyInfo.cs
@@ -16,3 +15,4 @@ D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\ne
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\net5.0\ref\Persistence.dll
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\net5.0\Persistence.pdb
 D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\net5.0\Persistence.genruntimeconfig.cache
+D:\projects\MsuEcosystem\MsuEcosystemApi\Infrastructure\Persistence\obj\Debug\net5.0\Persistence.csproj.AssemblyReference.cache
