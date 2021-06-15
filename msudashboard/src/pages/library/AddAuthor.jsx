@@ -10,16 +10,17 @@ import { DropzoneArea } from "material-ui-dropzone";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(16),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    // marginTop: theme.spacing(16),
+    // display: "flex",
+    // flexDirection: "column",
+    // alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
+    alignItems: "center",
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
@@ -41,7 +42,7 @@ function AddAuthor() {
     <Container>
       <form className={classes.root} autoComplete="off">
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={12} md={8}>
             <TextField
               autoComplete="fname"
               name="firstName"
@@ -54,7 +55,7 @@ function AddAuthor() {
               autoFocus
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={12} md={8}>
             <TextField
               required
               fullWidth
@@ -66,7 +67,7 @@ function AddAuthor() {
               autoComplete="lname"
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} sm={12} md={8}>
             <TextField
               required
               fullWidth
@@ -78,10 +79,10 @@ function AddAuthor() {
               autoComplete="email"
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={8}>
             <TextField required fullWidth name="date" type="date" />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={8}>
             <TextField
               required
               fullWidth
@@ -93,7 +94,7 @@ function AddAuthor() {
             />
           </Grid>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={8}>
           <DropzoneArea
             acceptedFiles={["image/*"]}
             dropzoneText={"Перетащите файл"}

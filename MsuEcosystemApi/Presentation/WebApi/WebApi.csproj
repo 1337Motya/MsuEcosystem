@@ -33,6 +33,8 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\users\avatars\" />
     <Folder Include="wwwroot\images\articles\" />
+    <Folder Include="wwwroot\images\faculties\" />
+    <Folder Include="wwwroot\images\departments\" />
   </ItemGroup>
 
 </Project>

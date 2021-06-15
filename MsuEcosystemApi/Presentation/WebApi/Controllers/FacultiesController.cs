@@ -3,6 +3,7 @@ using Application.Services.InfoService.FacultyFeatures.Queries;
 using Domain.Entitties.MsuInfo;
 using Domain.Entitties.MsuInfo.ViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace WebApi.Controllers
             return await _mediator.Send(new GetFacultyById.Query(facultyId));
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddFaculty([FromBody] Faculty faculty)
         {
@@ -44,6 +46,7 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateFaculty([FromBody] Faculty faculty)
         {
@@ -55,6 +58,7 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
+        [Authorize]
         [HttpDelete("{facultyId}")]
         public async Task<IActionResult> DeleteFaculty(string facultyId)
         {

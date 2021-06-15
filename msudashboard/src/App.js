@@ -8,6 +8,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import Users from "./pages/users/Users";
 import { loadUserdata } from "./redux/actions/auth";
 import AddFaculty from "./pages/faculties/AddFaculty";
+import EditFaculty from "./pages/faculties/EditFaculty";
 import CreateDraft from "./pages/news/CreateDraft";
 import Drafts from "./pages/news/Drafts";
 import EditDraft from "./pages/news/EditDraft";
@@ -21,6 +22,9 @@ import Authors from "./pages/library/Authors";
 import AddAuthor from "./pages/library/AddAuthor";
 import CreateReview from "./pages/news/CreateReview";
 import Publications from "./pages/news/Publications";
+import Faculties from "./pages/faculties/Faculties";
+import AddDepartment from "./pages/departments/AddDepartment";
+import EditDepartment from "./pages/departments/EditDepartment";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,8 +40,20 @@ function App() {
         <PrivateRoute path="/users" exact>
           <Users />
         </PrivateRoute>
-        <PrivateRoute path="/faculty/add" exact>
+        <PrivateRoute path="/faculties" exact>
+          <Faculties />
+        </PrivateRoute>
+        <PrivateRoute path="/faculties/add" exact>
           <AddFaculty />
+        </PrivateRoute>
+        <PrivateRoute path="/faculties/edit/:id" exact>
+          <EditFaculty />
+        </PrivateRoute>
+        <PrivateRoute path="/faculties/:id/departments/add" exact>
+          <AddDepartment />
+        </PrivateRoute>
+        <PrivateRoute path="/faculties/:facultyId/departments/edit/:departmentId" exact>
+          <EditDepartment />
         </PrivateRoute>
         <PrivateRoute path="/news/reviews" exact>
           <Reviews />

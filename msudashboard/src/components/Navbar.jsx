@@ -17,10 +17,11 @@ import ProfileIcon from "./ProfileIcon";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -56,9 +57,11 @@ function Navbar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Панель управления
-          </Typography>
+          <Container>
+            <Typography variant="h6" className={classes.title}>
+              Панель управления
+            </Typography>
+          </Container>
           {isAuthenticated ? (
             <ProfileIcon />
           ) : (
@@ -114,8 +117,8 @@ function Navbar() {
                 <ListItem button onClick={() => console.log(123)}>
                   <ListItemText primary={"Преподаватели"} />
                 </ListItem>
-                <Link to="/faculty/add">
-                  <ListItem button onClick={() => console.log(123)}>
+                <Link to="/faculties">
+                  <ListItem button>
                     <ListItemText primary={"Факультеты"} />
                   </ListItem>
                 </Link>

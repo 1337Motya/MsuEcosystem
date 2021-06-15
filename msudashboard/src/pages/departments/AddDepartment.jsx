@@ -6,9 +6,10 @@ import { DropzoneArea } from "material-ui-dropzone";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { fetchTeachers } from "../../redux/actions/teachers";
-import { addFaculty } from "../../redux/actions/faculties";
+import { addDepartment } from "../../redux/actions/departments";
 import { makeStyles } from "@material-ui/core/styles";
 import imageApi from "../../api/imageApi";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   dropzone: {
@@ -17,14 +18,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddFaculty() {
+function AddDepartment() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [image, setImage] = React.useState(null);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const teachers = useSelector(({ teachers }) => teachers.teachers);
-  const [dean, setDean] = React.useState(null);
+  const [manager, setManager] = React.useState(null);
+  const { id } = useParams();
   const defaultProps = {
     options: teachers,
     getOptionLabel: (option) =>
@@ -36,16 +38,17 @@ function AddFaculty() {
   }, []);
 
   React.useEffect(() => {
-    setDean(teachers[0]);
+    setManager(teachers[0]);
   }, [teachers]);
 
   const submit = async () => {
     var ImageUrl = await imageApi.addFacultyImage(image[0]);
     dispatch(
-      addFaculty({
+      addDepartment({
         name: name,
         description: description,
-        deanId: dean.id,
+        managerId: manager.id,
+        facultyId: id,
         ImageUrl: ImageUrl,
       })
     );
@@ -53,8 +56,8 @@ function AddFaculty() {
 
   return (
     <Container>
-      <h2>Новый факультет</h2>
-      <h3>Эмблема факультета</h3>
+      <h2>Добавление кафедры</h2>
+      <h3>Эмблема кафедры</h3>
       <div className={classes.dropzone}>
         <DropzoneArea
           acceptedFiles={["image/*"]}
@@ -77,9 +80,9 @@ function AddFaculty() {
       />
       <Autocomplete
         {...defaultProps}
-        value={dean}
+        value={manager}
         onChange={(event, newValue) => {
-          setDean(newValue);
+          setManager(newValue);
         }}
         id="disable-close-on-select"
         renderInput={(params) => (
@@ -95,4 +98,4 @@ function AddFaculty() {
   );
 }
 
-export default AddFaculty;
+export default AddDepartment;
